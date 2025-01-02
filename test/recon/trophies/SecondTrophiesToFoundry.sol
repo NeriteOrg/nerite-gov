@@ -201,9 +201,9 @@ contract SecondTrophiesToFoundry is Test, TargetFunctions, FoundryAsserts {
         for (uint256 i; i < deployedInitiatives.length; i++) {
             (IGovernance.InitiativeVoteSnapshot memory initiativeSnapshot,,) =
                 governance.getInitiativeSnapshotAndState(deployedInitiatives[i]);
-            (Governance.InitiativeStatus status,,) = governance.getInitiativeState(deployedInitiatives[i]);
+            (IGovernance.InitiativeStatus status,,) = governance.getInitiativeState(deployedInitiatives[i]);
 
-            // if (status != Governance.InitiativeStatus.DISABLED) {
+            // if (status != IGovernance.InitiativeStatus.DISABLED) {
             // FIX: Only count total if initiative is not disabled
             initiativeVotesSum += initiativeSnapshot.votes;
             // }
@@ -224,7 +224,6 @@ contract SecondTrophiesToFoundry is Test, TargetFunctions, FoundryAsserts {
         console.log("snapshot.votes", snapshot.votes);
 
         console.log("state.countedVoteLQTY", state.countedVoteLQTY);
-        console.log("state.countedVoteLQTYAverageTimestamp", state.countedVoteLQTYAverageTimestamp);
 
         for (uint256 i; i < deployedInitiatives.length; i++) {
             (
@@ -233,9 +232,6 @@ contract SecondTrophiesToFoundry is Test, TargetFunctions, FoundryAsserts {
             ) = governance.getInitiativeSnapshotAndState(deployedInitiatives[i]);
 
             console.log("initiativeState.voteLQTY", initiativeState.voteLQTY);
-            console.log(
-                "initiativeState.averageStakingTimestampVoteLQTY", initiativeState.averageStakingTimestampVoteLQTY
-            );
 
             assertEq(snapshot.forEpoch, initiativeSnapshot.forEpoch, "No desynch");
             console.log("initiativeSnapshot.votes", initiativeSnapshot.votes);
